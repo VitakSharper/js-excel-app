@@ -1,0 +1,44 @@
+.formula {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: $formula-height;
+  top: 8rem;
+  border-bottom: 1px solid $color-grey-light-1;
+
+  display: flex;
+  align-items: center;
+
+  &__info {
+    font-size: 1.6rem;
+    text-align: center;
+    font-style: italic;
+    //border-right: 1px solid $color-grey-light-1;
+    min-width: $info-cell-width;
+  }
+
+  &__input {
+    border: 1px solid transparent;
+    padding: 0 4px;
+    font-size: 1.2rem;
+    outline: none;
+    width: 100%;
+    height: 90%;
+    color: #000;
+
+    border-radius: 100px;
+    background-color: $color-grey-light-3;
+    transition: all .2s;
+
+    &:focus {
+      outline: none;
+      border: 1px solid $color-grey-light-1;
+    }
+
+    &:hover {
+      border: 1px solid $color-grey-light-1;
+    }
+  }
+
+
+}

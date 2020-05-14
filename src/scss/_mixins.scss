@@ -1,0 +1,31 @@
+@mixin btn($color:green) {
+  border: none;
+  background-color: #fff;
+  position: relative;
+  //height: 2.4rem;
+  min-width: 2.4rem;
+  padding: 3px;
+  text-align: center;
+  display: inline-block;
+  color: rgba(0, 0, 0, .7);
+
+  & i {
+    font-size: 1.8rem;
+    //color: #eee;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    color: $color;
+  }
+
+  &:hover {
+    background: $color-grey-light-3;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+}
