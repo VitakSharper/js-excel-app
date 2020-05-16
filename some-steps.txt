@@ -1,3 +1,5 @@
 git:: git checkout -b "webpack" -- create new branch in git
 git:: git push -u origin webpack -- push to branch
 npm:: npm i eslint eslint-loader babel-eslint -- eslint install
+git:: git checkout master -- switch to master after merge on github
+git:: git pull -- pull all to local

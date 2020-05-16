@@ -19,7 +19,7 @@ const jsLoaders = () => {
         }
     ]
     if (isDev) {
-        loaders.push('eslin-loader')
+        loaders.push('eslint-loader')
     }
     return loaders;
 }
@@ -85,7 +85,6 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: jsLoaders(),
-
             }
         ],
     }

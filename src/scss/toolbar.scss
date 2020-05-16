@@ -1,0 +1,18 @@
+.toolbar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4rem;
+  height: $toolbar-height;
+  border-top: 1px solid $color-grey-light-1;
+  border-bottom: 1px solid $color-grey-light-1;
+  padding: .7rem 1rem;
+
+  display: flex;
+  align-items: center;
+  //justify-content: space-evenly;
+
+  .btn {
+    @include btn(green)
+  }
+}
