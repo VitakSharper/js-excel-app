@@ -5,10 +5,12 @@
   //top: $header-height + $toolbar-height + 8rem;
   top: 10.4rem;
   overflow-x: auto;
+  padding-bottom: 2px;
 
   .row {
     min-height: 2rem;
     height: $row-height;
+
     display: flex;
 
     &__info {
@@ -21,7 +23,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-
     }
 
     &__data {
@@ -39,12 +40,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
       }
 
       .cell {
         min-width: 4rem;
-        padding: 5px;
+        padding: 3px;
         width: $cell-width;
         height: 100%;
         border: 1px solid $color-grey-light-2;
@@ -52,8 +52,19 @@
         border-top: none;
         color: #111;
         white-space: nowrap;
+        outline: none;
 
-        &.selected {
+        & > .selected {
+          width: 100%;
+          height: 100%;
+          border: none;
+          outline: 2px solid $color-cell-selected-outline-blue;
+          -moz-outline-radius: 5px;
+          //z-index: 2;
+
+          display: flex;
+          align-items: center;
+
         }
       }
     }

@@ -12,19 +12,13 @@ html {
 }
 
 body {
-  font-family: $font-primary;
   //color: $color-grey-dark-2;
-  font-weight: 300;
-  line-height: 1.6;
 }
 
 .excel {
-color:$color-grey-dark
-}
-
-.btn {
-
-}
-
-main{
+  position: relative;
+  color: $color-grey-dark;
+  height: 100%;
+  max-width: 100%;
+  font-size: 1rem;
 }
