@@ -29,6 +29,15 @@ class Dom {
         }
         return this
     }
+
+    on(eventType, callback) {
+        this.$el.addEventListener(eventType, callback)
+    }
+
+    off(eventType, callback) {
+        console.log('in off: ', eventType, callback)
+        this.$el.removeEventListener(eventType, callback)
+    }
 }
 
 export function $(selector) {
