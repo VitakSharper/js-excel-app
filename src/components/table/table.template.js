@@ -25,8 +25,8 @@ const columns = (colsCount) => new Array(colsCount)
 
 const cells = (colsCount, rowIdx) => new Array(colsCount)
     .fill('')
-    // .map((el, cellIdx) => createCell(toChar(el, cellIdx), rowIdx))
-    .map(createCell)
+    .map((el, cellIdx) => createCell(toChar(el, cellIdx), rowIdx))
+    // .map(createCell)
     .join('')
 
 
@@ -35,24 +35,29 @@ const cells = (colsCount, rowIdx) => new Array(colsCount)
 // <div class="cell" contenteditable>${char} ${rowIdx}</div>
 // `
 // }
-function createCell() {
+function createCell(char, rowIdx) {
     return `
-<div class="cell" contenteditable></div>
+<div class="cell" contenteditable data-col="${char}${rowIdx}"></div>
 `
 }
 
 function createColumn(content) {
     return `
-<div class="column">
+<div class="column" data-type="random-char" data-col="${content}">
 ${content}
+<div class="column__resize" data-resize="column"></div>
 </div>
 `
 }
 
 function createRow(content, rowIdx) {
+    const resize = rowIdx ? '<div class="row__resize" data-resize="row"></div>' : ''
     return `
-<div class="row">
-    <div class="row__info">${rowIdx}</div>
+<div class="row" data-type="random-char">
+    <div class="row__info">
+            ${rowIdx ? rowIdx : ''}
+            ${resize}
+            </div>
     <div class="row__data">${content}</div>
 </div>
 `
