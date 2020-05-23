@@ -35,3 +35,16 @@
   margin: 0;
   padding: 0;
 }
+
+@mixin col-row-resize() {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: $color-cell-selected-outline-blue;
+  opacity: 0;
+  z-index: 1000;
+
+  &:hover {
+    opacity: 1 !important;
+  }
+}
