@@ -31,7 +31,6 @@ const colsPredicate = (firstCol, lastCol) =>
         ? [lastCol, firstCol, {isInvert: true}]
         : [firstCol, lastCol, {isInvert: false}]
 
-
 export const checkCellRange = (transformedCell, currentCell, rowsToCreate) => {
     return ((transformedCell.charCodeAt(0) >= CODES.A) && (transformedCell.charCodeAt(0) <= CODES.Z))
     && (+transformedCell.substring(1) >= 1) && (+transformedCell.substring(1) <= rowsToCreate)
