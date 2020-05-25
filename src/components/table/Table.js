@@ -10,9 +10,11 @@ export class Table extends ExcelComponent {
     static className = 'table'
     rowsToCreate = 25
 
-    constructor($root) {
+    constructor($root, options) {
         super($root, {
-            listeners: ['mousedown', 'keydown']
+            name: 'Table',
+            listeners: ['mousedown', 'keydown'],
+            ...options
         });
     }
 
@@ -28,6 +30,8 @@ export class Table extends ExcelComponent {
         super.init();
         const $cell = this.$root.find('[data-col="A1"]')
         this.selection.select($cell)
+
+        this.emitter.subscribe('is working!', text => console.log('in table: ', text))
     }
 
     onMousedown(event) {
