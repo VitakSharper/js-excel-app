@@ -1,4 +1,4 @@
-const CODES = {
+export const CODES = {
     A: 65,
     Z: 90
 }
@@ -37,7 +37,12 @@ const cells = (colsCount, rowIdx) => new Array(colsCount)
 // }
 function createCell(char, rowIdx) {
     return `
-<div class="cell" contenteditable data-col="${char}${rowIdx}"></div>
+<div 
+class="cell" 
+contenteditable 
+data-col="${char}${rowIdx}"
+data-type="cell"
+></div>
 `
 }
 
