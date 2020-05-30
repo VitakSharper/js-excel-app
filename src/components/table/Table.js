@@ -36,6 +36,9 @@ export class Table extends ExcelComponent {
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()
         })
+        this.$subscribe(state => {
+            console.log('TableState', state)
+        })
     }
 
     selectCell($cell) {
@@ -44,18 +47,19 @@ export class Table extends ExcelComponent {
     }
 
     onMousedown(event) {
+        const {target, shiftKey} = event;
         if (shouldResize(event)) {
             resizeHandler(this.$root, event)
         } else if (isCell(event)) {
-            if (event.shiftKey) {
+            if (shiftKey) {
                 const currentCell = this.selection.current.getCellId()
-                const targetCell = $(event.target).data.col
+                const targetCell = $(target).data.col
 
                 this.selection.selectGroup(
                     getGroupOfCells(currentCell, targetCell)
                         .map(id => this.$root.find(`[data-col="${id}"]`)))
             } else {
-                this.selection.select($(event.target))
+                this.selectCell($(target))
             }
         }
     }
