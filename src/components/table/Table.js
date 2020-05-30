@@ -6,6 +6,8 @@ import {TableSelection} from "@/components/table/TableSelection";
 import {$} from "@core/dom";
 import {checkCellRange} from "@core/utils";
 
+import * as actions from "@/redux/actions"
+
 export class Table extends ExcelComponent {
     static className = 'table'
     rowsToCreate = 25
@@ -18,14 +20,6 @@ export class Table extends ExcelComponent {
         });
     }
 
-    toHTML() {
-        return createTable(this.rowsToCreate)
-    }
-
-    prepare() {
-        this.selection = new TableSelection()
-    }
-
     init() {
         super.init();
         this.selectCell(this.$root.find('[data-col="A1"]'))
@@ -36,20 +30,40 @@ export class Table extends ExcelComponent {
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()
         })
-        this.$subscribe(state => {
-            console.log('TableState', state)
-        })
+        // subscribe to state
+        // this.$subscribe(state => {
+        //     console.log('TableState', state)
+        // })
     }
+
+    toHTML() {
+        return createTable(this.rowsToCreate,this.store.getState())
+    }
+
+    prepare() {
+        this.selection = new TableSelection()
+    }
+
 
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit('table:select', $cell)
     }
 
-    onMousedown(event) {
+    async resizeTable(event) {
+        try {
+            const data = await resizeHandler(this.$root, event)
+            this.$dispatch(actions.tableResize(data))
+            //console.log('cell params: ', data)
+        } catch (e) {
+            console.warn('Resize err: ', e.message)
+        }
+    }
+
+    async onMousedown(event) {
         const {target, shiftKey} = event;
         if (shouldResize(event)) {
-            resizeHandler(this.$root, event)
+            await this.resizeTable(event)
         } else if (isCell(event)) {
             if (shiftKey) {
                 const currentCell = this.selection.current.getCellId()

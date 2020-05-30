@@ -37,3 +37,8 @@ export const checkCellRange = (transformedCell, currentCell, rowsToCreate) => {
         ? `[data-col="${transformedCell}"]`
         : `[data-col="${currentCell}"]`
 }
+
+export const storage = (key, data = null) => !data
+    ? JSON.parse(localStorage.getItem(key))
+    : localStorage.setItem(key, JSON.stringify(data))
+
