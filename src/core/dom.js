@@ -106,25 +106,17 @@ $.create = (tagName, classes = []) => {
     return $(el)
 }
 
-$.getNodeForComponent = (component) => {
-    let node;
-    switch (component) {
+$.getNodeForComponent = (node) => {
+    switch (node) {
         case 'Header':
-            node = 'header'
-            break
-        case 'Table':
-            node = 'section'
-            break
+            return 'header'
         case 'Formula':
-            node = 'section'
-            break
+        case 'Table':
+            return 'section'
         case 'Toolbar':
-            node = 'nav'
-            break
+            return 'nav'
         default:
-            node = 'div'
-            break
+            return 'div'
     }
-    return node;
 }
 
