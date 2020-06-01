@@ -14,26 +14,29 @@ export class Formula extends ExcelComponent {
 
     toHTML() {
         return `
-         <div class="formula__info">fx</div>
-            <div id="formula" class="formula__input" contenteditable="true" spellcheck="false"></div>
+            <div class="formula__info">fx</div>
+            <input id="formula" class="formula__input" type="text"  spellcheck="false"/>
         `
     }
 
     init() {
         super.init();
         this.$formula = this.$root.find('#formula')
+        // show selected cell value in formula input
         this.$on('table:select', $cell => {
             this.$formula.text($cell.text())
         })
-        this.$on('table:input', $cell => {
-            this.$formula.text($cell.text())
-        })
-        // subscribe to state
-        // this.$subscribe(state => {
-        //     console.log('FormulaState', state)
+        // receive data from current cell
+        // this.$on('table:input', $cell => {
+        //     this.$formula.text($cell.text())
         // })
+        // subscribe to state and get current cell value
+        this.$subscribe(state => {
+            this.$formula.text(state.currentCellValue)
+        })
     }
 
+    // emit value from formula input to selected cell
     onInput(event) {
         this.$emit('formula:input', $(event.target).text())
     }

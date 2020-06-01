@@ -5,19 +5,24 @@ export const CODES = {
 const firstRow = 0
 const colsCount = CODES.Z - CODES.A + 1
 const DEFAULT_WIDTH = 120
+const DEFAULT_HEIGHT = 24
 
 const toChar = (_, index) => String.fromCharCode(CODES.A + index)
 
-export const createTable = (rowsCount = 16, state = {}) => new Array(rowsCount)
-    .fill('')
-    .map((_, idx) => creator(_, idx, state))
-    .join('')
+export const createTable = (rowsCount = 16, state = {}) => {
+    return new Array(rowsCount)
+        .fill('')
+        .map((_, idx) => creator(_, idx, state))
+        .join('')
+}
 
-const getWidthFromState = (state, col, fn) => fn(col, (state.colState[col[0]] || DEFAULT_WIDTH) + 'px')
+const getWidthFromState = (state, col, fn) => fn(col, (state.columnState && state.columnState[col[0]] || DEFAULT_WIDTH) + 'px')
+const getHeightFromState = (rowState, rowIdx) => (rowState && rowState[rowIdx] || DEFAULT_HEIGHT) + 'px'
 
 const creator = (_, rowIdx, state) => rowIdx === firstRow
+    // create first row unsizable
     ? createRow(columns(colsCount, state), '')
-    : createRow(cells(colsCount, rowIdx, state), rowIdx)
+    : createRow(cells(colsCount, rowIdx, state), rowIdx, getHeightFromState(state.rowState, rowIdx))
 
 const columns = (colsCount, state) => new Array(colsCount)
     .fill('')
@@ -52,17 +57,17 @@ data-type="cell"
 
 function createColumn(col, width) {
     return `
-<div class="column" data-type="random-char" data-col="${col}" style="width: ${width}">
+<div class="column" data-type="resizable" data-col="${col}" style="width: ${width}">
 ${col}
 <div class="column__resize" data-resize="column"></div>
 </div>
 `
 }
 
-function createRow(content, rowIdx) {
+function createRow(content, rowIdx, height) {
     const resize = rowIdx ? '<div class="row__resize" data-resize="row"></div>' : ''
     return `
-<div class="row" data-type="random-char">
+<div class="row" data-type="resizable" data-row="${rowIdx}" style="height: ${height}">
     <div class="row__info">
             ${rowIdx ? rowIdx : ''}
             ${resize}

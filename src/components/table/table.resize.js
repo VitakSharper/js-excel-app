@@ -4,9 +4,10 @@ export function resizeHandler($root, event) {
     return new Promise(resolve => {
         const $resizer = $(event.target)
 
-        const $parent = $resizer.closest('[data-type="random-char"]')
+        const $parent = $resizer.closest('[data-type="resizable"]')
         const coords = $parent.getCoords()
         const type = $resizer.data.resize
+        console.log('in resize: ', $parent.data)
         const sideProp = type === 'column' ? 'bottom' : 'right'
         let value;
 
@@ -41,7 +42,8 @@ export function resizeHandler($root, event) {
             // resolve cell resize params to store
             resolve({
                 value,
-                id: $parent.data.col
+                type,
+                [type]: $parent.data.row || $parent.data.col
             })
 
             $resizer.css({

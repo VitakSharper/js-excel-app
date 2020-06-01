@@ -23,9 +23,10 @@ export class Table extends ExcelComponent {
     init() {
         super.init();
         this.selectCell(this.$root.find('[data-col="A1"]'))
-
+        // insert text in current cell from formula component
         this.$on('formula:input', text => {
             this.selection.current.text(text)
+            this.modifyCellValueInStore(text)
         })
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()
@@ -37,7 +38,7 @@ export class Table extends ExcelComponent {
     }
 
     toHTML() {
-        return createTable(this.rowsToCreate,this.store.getState())
+        return createTable(this.rowsToCreate, this.store.getState())
     }
 
     prepare() {
@@ -48,6 +49,13 @@ export class Table extends ExcelComponent {
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit('table:select', $cell)
+    }
+
+    modifyCellValueInStore(currentCellValue) {
+        this.$dispatch(actions.modCurrentCellData({
+            cellId: this.selection.current.getCellId(),
+            cellValue: currentCellValue
+        }))
     }
 
     async resizeTable(event) {
@@ -90,7 +98,9 @@ export class Table extends ExcelComponent {
         }
     }
 
+    // dispatch to store data from current cell to formula input
     onInput(event) {
-        this.$emit('table:input', $(event.target))
+        //this.$emit('table:input', $(event.target))
+        this.modifyCellValueInStore($(event.target).text())
     }
 }

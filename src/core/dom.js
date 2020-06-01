@@ -19,10 +19,15 @@ class Dom {
 
     text(text) {
         if (typeof text === 'string') {
-            this.$el.textContent = text
+            if (this.$el.tagName.toLowerCase() === 'input') {
+                this.$el.value = text
+                return this
+            }
+            this.$el.textContent = text.trim()
             return this
         }
         if (this.$el.tagName.toLowerCase() === 'input') {
+            console.log('its input')
             return this.$el.value.trim()
         }
         return this.$el.textContent.trim()

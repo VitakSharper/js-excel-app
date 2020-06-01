@@ -1,11 +1,27 @@
 import {TableActionTypes} from "@/redux/actionTypes";
+import {addColumnToState, addValueToCellsDataState} from "@/redux/utils";
 
-export function rootReducer(state, action) {
+const initialState = {
+    columnState: {},
+    rowState: {},
+    cellsDataState: {},
+    currentCellValue: ''
+}
+
+export function rootReducer(state = initialState, action) {
+    console.log('in reducer: ', action)
     switch (action.type) {
         case TableActionTypes.TABLE_RESIZE:
-            const prevState = state.colState || {}
-            prevState[action.payload.id] = action.payload.value
-            return {...state, colState: prevState}
+            return {
+                ...state,
+                [action.payload.type + 'State']: addColumnToState(state, action.payload)
+            }
+        case TableActionTypes.MODIFY_CELL_DATA:
+            return {
+                ...state,
+                currentCellValue: action.payload.cellValue,
+                cellsDataState: addValueToCellsDataState(state.cellsDataState, action.payload)
+            }
         default:
             return state
     }
