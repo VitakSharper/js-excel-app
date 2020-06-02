@@ -42,3 +42,7 @@ export const storage = (key, data = null) => !data
     ? JSON.parse(localStorage.getItem(key))
     : localStorage.setItem(key, JSON.stringify(data))
 
+// js hack comparing two objects or two strings
+export const isEqual = (a, b) => (typeof a === 'object') && (typeof b === 'object')
+    ? JSON.stringify(a) === JSON.stringify(b)
+    : a === b

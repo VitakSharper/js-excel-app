@@ -16,7 +16,7 @@ export const createTable = (rowsCount = 16, state = {}) => {
         .join('')
 }
 
-const getWidthFromState = (state, col, fn) => fn(col, (state.columnState && state.columnState[col[0]] || DEFAULT_WIDTH) + 'px')
+const getWidthFromState = (state, col, fn) => fn(col, (state.columnState && state.columnState[col[0]] || DEFAULT_WIDTH) + 'px', state.cellsDataState && state.cellsDataState[col] || '')
 const getHeightFromState = (rowState, rowIdx) => (rowState && rowState[rowIdx] || DEFAULT_HEIGHT) + 'px'
 
 const creator = (_, rowIdx, state) => rowIdx === firstRow
@@ -43,15 +43,15 @@ const cells = (colsCount, rowIdx, state) => new Array(colsCount)
 // <div class="cell" contenteditable>${char} ${rowIdx}</div>
 // `
 // }
-function createCell(char, width) {
+function createCell(cellId, width, value) {
     return `
 <div 
 class="cell"
 style="width: ${width}"
 contenteditable 
-data-col="${char}"
+data-col="${cellId}"
 data-type="cell"
-></div>
+>${value}</div>
 `
 }
 

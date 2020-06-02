@@ -31,10 +31,6 @@ export class Table extends ExcelComponent {
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()
         })
-        // subscribe to state
-        // this.$subscribe(state => {
-        //     console.log('TableState', state)
-        // })
     }
 
     toHTML() {

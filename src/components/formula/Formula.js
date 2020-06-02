@@ -8,6 +8,7 @@ export class Formula extends ExcelComponent {
         super($root, {
             name: 'Formula',
             listeners: ['input', 'keydown'],
+            subscribe: ['currentCellValue'],
             ...options
         });
     }
@@ -26,14 +27,11 @@ export class Formula extends ExcelComponent {
         this.$on('table:select', $cell => {
             this.$formula.text($cell.text())
         })
-        // receive data from current cell
-        // this.$on('table:input', $cell => {
-        //     this.$formula.text($cell.text())
-        // })
-        // subscribe to state and get current cell value
-        this.$subscribe(state => {
-            this.$formula.text(state.currentCellValue)
-        })
+    }
+
+    // subscribe to state and get current cell value
+    storeModified({currentCellValue}) {
+        this.$formula.text(currentCellValue)
     }
 
     // emit value from formula input to selected cell
