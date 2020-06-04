@@ -7,7 +7,6 @@ export function resizeHandler($root, event) {
         const $parent = $resizer.closest('[data-type="resizable"]')
         const coords = $parent.getCoords()
         const type = $resizer.data.resize
-        console.log('in resize: ', $parent.data)
         const sideProp = type === 'column' ? 'bottom' : 'right'
         let value;
 

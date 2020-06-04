@@ -7,6 +7,7 @@ import {$} from "@core/dom";
 import {checkCellRange} from "@core/utils";
 
 import * as actions from "@/redux/actions"
+import {defaultStyles} from "@/constants";
 
 export class Table extends ExcelComponent {
     static className = 'table'
@@ -31,6 +32,10 @@ export class Table extends ExcelComponent {
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()
         })
+        // on css apply
+        this.$on('toolbar:applyStyle', cssDeclaration => {
+            this.selection.applyCss(cssDeclaration)
+        })
     }
 
     toHTML() {
@@ -41,10 +46,11 @@ export class Table extends ExcelComponent {
         this.selection = new TableSelection()
     }
 
-
     selectCell($cell) {
         this.selection.select($cell)
+        // emit selected cell to formula input
         this.$emit('table:select', $cell)
+        console.log($cell.getCss(Object.keys(defaultStyles)))
     }
 
     modifyCellValueInStore(currentCellValue) {
@@ -58,7 +64,6 @@ export class Table extends ExcelComponent {
         try {
             const data = await resizeHandler(this.$root, event)
             this.$dispatch(actions.tableResize(data))
-            //console.log('cell params: ', data)
         } catch (e) {
             console.warn('Resize err: ', e.message)
         }

@@ -6,6 +6,10 @@ export class TableSelection {
         this.current = null
     }
 
+    applyCss(cssDeclaration) {
+        this.group.forEach($el => $el.css(cssDeclaration))
+    }
+
 // $el instance of DOM
     select($el) {
         this.clear()

@@ -27,7 +27,6 @@ class Dom {
             return this
         }
         if (this.$el.tagName.toLowerCase() === 'input') {
-            console.log('its input')
             return this.$el.value.trim()
         }
         return this.$el.textContent.trim()
@@ -55,7 +54,6 @@ class Dom {
     }
 
     off(eventType, callback) {
-        console.log('in off: ', eventType, callback)
         this.$el.removeEventListener(eventType, callback)
     }
 
@@ -75,8 +73,17 @@ class Dom {
         return $(this.$el.querySelector(selector))
     }
 
-    css(styles = {}) {
-        Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+    css(cssDeclaration = {}) {
+        Object.keys(cssDeclaration)
+            .forEach(cssProperty =>
+                this.$el.style[cssProperty] = cssDeclaration[cssProperty])
+    }
+
+    getCss(css = []) {
+        return css.reduce((acc, cssProperty) => {
+            acc[cssProperty] = this.$el.style[cssProperty]
+            return acc
+        }, {})
     }
 
     addClass(className) {

@@ -1,6 +1,9 @@
-import {ExcelComponent} from "@core/ExcelComponent";
+import {createToolbar} from "@/components/toolbar/toolbar.template";
+import {$} from "@core/dom";
+import {ExcelStateComponent} from "@core/ExcelStateComponent";
+import {defaultStyles} from "@/constants";
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
     static className = 'toolbar'
 
     constructor($root, options) {
@@ -11,18 +14,26 @@ export class Toolbar extends ExcelComponent {
         })
     }
 
+    get template() {
+        return createToolbar(this.state)
+    }
+
+    prepare() {
+        this.initState(defaultStyles)
+    }
+
     toHTML() {
-        return `
-        <button class="btn"><i class="material-icons">format_align_left</i></button>
-            <button class="btn"><i class="material-icons">format_align_center</i></button>
-            <button class="btn"><i class="material-icons">format_align_right</i></button>
-            <button class="btn"><i class="material-icons">format_bold</i></button>
-            <button class="btn"><i class="material-icons">format_italic</i></button>
-            <button class="btn"><i class="material-icons">format_underline</i></button>
-        `
+        return this.template
     }
 
     onClick(event) {
-        console.log(event.target)
+        const $target = $(event.target)
+        if ($target.data.type === 'btn') {
+            const cssDeclaration = JSON.parse($target.data.css)
+            this.$emit('toolbar:applyStyle', cssDeclaration)
+
+            const cssProperty = Object.keys(cssDeclaration)[0]
+            this.setState({[cssProperty]: cssDeclaration[cssProperty]})
+        }
     }
 }
