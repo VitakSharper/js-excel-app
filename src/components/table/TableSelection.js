@@ -18,6 +18,10 @@ export class TableSelection {
         $el.selectedCellFocus().addClass(TableSelection.className)
     }
 
+    get selectedCellIds() {
+        return this.group.map($el => $el.getCellId())
+    }
+
     clear() {
         this.group.forEach($el => $el.removeClass(TableSelection.className))
         this.group = []

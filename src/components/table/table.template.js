@@ -1,3 +1,6 @@
+import {defaultStyles} from "@/constants";
+import {camelCaseToDash, toInlineStyles} from "@core/utils";
+
 export const CODES = {
     A: 65,
     Z: 90
@@ -44,10 +47,12 @@ const cells = (colsCount, rowIdx, state) => new Array(colsCount)
 // `
 // }
 function createCell(cellId, width, value) {
+    // transform styles from object and camelCase to dash style css declaration format with ; in the end
+    const styles = toInlineStyles(defaultStyles)
     return `
 <div 
 class="cell"
-style="width: ${width}"
+style="${styles}; width: ${width}"
 contenteditable 
 data-col="${cellId}"
 data-type="cell"

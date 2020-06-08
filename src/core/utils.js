@@ -46,3 +46,13 @@ export const storage = (key, data = null) => !data
 export const isEqual = (a, b) => (typeof a === 'object') && (typeof b === 'object')
     ? JSON.stringify(a) === JSON.stringify(b)
     : a === b
+
+export const camelCaseToDash = (cssProperty) =>
+    cssProperty.replace(/([A-Z])/g, (g) =>
+        `-${g[0].toLowerCase()}`)
+
+export const toInlineStyles = (styles = {}) =>
+    Object.keys(styles)
+        .map(cssDeclaration =>
+            `${camelCaseToDash(cssDeclaration)}:${styles[cssDeclaration]}`)
+        .join(';')

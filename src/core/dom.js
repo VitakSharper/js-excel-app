@@ -79,8 +79,8 @@ class Dom {
                 this.$el.style[cssProperty] = cssDeclaration[cssProperty])
     }
 
-    getCss(css = []) {
-        return css.reduce((acc, cssProperty) => {
+    getCss(styles = []) {
+        return styles.reduce((acc, cssProperty) => {
             acc[cssProperty] = this.$el.style[cssProperty]
             return acc
         }, {})

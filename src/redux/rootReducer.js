@@ -1,11 +1,15 @@
 import {TableActionTypes} from "@/redux/actionTypes";
-import {addColumnToState, addValueToCellsDataState} from "@/redux/utils";
+import {addColumnToState, addValueToCellsDataState, applyCssToCell} from "@/redux/utils";
+import {defaultStyles} from "@/constants";
+import {toInlineStyles} from "@core/utils";
 
 const initialState = {
     columnState: {},
     rowState: {},
     cellsDataState: {},
-    currentCellValue: ''
+    stylesState: {},
+    currentCellValue: '',
+    currentStyles: defaultStyles
 }
 
 export function rootReducer(state = initialState, action) {
@@ -21,6 +25,15 @@ export function rootReducer(state = initialState, action) {
                 ...state,
                 currentCellValue: action.payload.cellValue,
                 cellsDataState: addValueToCellsDataState(state.cellsDataState, action.payload)
+            }
+        case TableActionTypes.CHANGE_STYLE:
+            return {...state, currentStyles: action.payload}
+        case TableActionTypes.APPLY_STYLE:
+            console.log('in reducer: ', action.payload, state.stylesState)
+            return {
+                ...state,
+                stylesState: applyCssToCell(state.stylesState || {}, action.payload),
+                currentStyles: {...state.currentStyles, ...action.payload.cssDeclaration}
             }
         default:
             return state

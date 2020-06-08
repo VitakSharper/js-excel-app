@@ -24,7 +24,7 @@ export class Table extends ExcelComponent {
     init() {
         super.init();
         this.selectCell(this.$root.find('[data-col="A1"]'))
-        // insert text in current cell from formula component
+        // on insert text in current cell from formula component
         this.$on('formula:input', text => {
             this.selection.current.text(text)
             this.modifyCellValueInStore(text)
@@ -35,6 +35,11 @@ export class Table extends ExcelComponent {
         // on css apply
         this.$on('toolbar:applyStyle', cssDeclaration => {
             this.selection.applyCss(cssDeclaration)
+            // dispatch to reducer selected cell styles
+            this.$dispatch(actions.applyStyle({
+                cssDeclaration,
+                cellIds: this.selection.selectedCellIds
+            }))
         })
     }
 
@@ -50,7 +55,9 @@ export class Table extends ExcelComponent {
         this.selection.select($cell)
         // emit selected cell to formula input
         this.$emit('table:select', $cell)
-        console.log($cell.getCss(Object.keys(defaultStyles)))
+        const styles = $cell.getCss(Object.keys(defaultStyles));
+        // dispatch styles from selected cell to store
+        this.$dispatch(actions.changeStyles(styles))
     }
 
     modifyCellValueInStore(currentCellValue) {
