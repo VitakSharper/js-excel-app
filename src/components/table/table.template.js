@@ -19,7 +19,7 @@ export const createTable = (rowsCount = 16, state = {}) => {
         .join('')
 }
 
-const getWidthFromState = (state, col, fn) => fn(col, (state.columnState && state.columnState[col[0]] || DEFAULT_WIDTH) + 'px', state.cellsDataState && state.cellsDataState[col] || '')
+const getWidthFromState = (state, col, fn) => fn(col, state)
 const getHeightFromState = (rowState, rowIdx) => (rowState && rowState[rowIdx] || DEFAULT_HEIGHT) + 'px'
 
 const creator = (_, rowIdx, state) => rowIdx === firstRow
@@ -46,9 +46,14 @@ const cells = (colsCount, rowIdx, state) => new Array(colsCount)
 // <div class="cell" contenteditable>${char} ${rowIdx}</div>
 // `
 // }
-function createCell(cellId, width, value) {
+function createCell(cellId, state) {
+    const width = (state.columnState && state.columnState[cellId[0]] || DEFAULT_WIDTH) + 'px'
+    const value = state.cellsDataState && state.cellsDataState[cellId] || ''
     // transform styles from object and camelCase to dash style css declaration format with ; in the end
-    const styles = toInlineStyles(defaultStyles)
+    const styles = (state.stylesState
+        && state.stylesState[cellId]
+        && toInlineStyles({...defaultStyles, ...state.stylesState[cellId]}))
+        || toInlineStyles(defaultStyles)
     return `
 <div 
 class="cell"
@@ -60,7 +65,8 @@ data-type="cell"
 `
 }
 
-function createColumn(col, width) {
+function createColumn(col, state) {
+    const width = (state.columnState && state.columnState[col[0]] || DEFAULT_WIDTH) + 'px'
     return `
 <div class="column" data-type="resizable" data-col="${col}" style="width: ${width}">
 ${col}

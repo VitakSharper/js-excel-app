@@ -6,15 +6,19 @@ import {Formula} from "@/components/formula/Formula"
 import {Table} from "@/components/table/Table"
 import {createStore} from "@core/createStore";
 import {rootReducer} from "@/redux/rootReducer";
-import {storage} from "@core/utils";
+import {debounce, storage} from "@core/utils";
 
 // store init
 const store = createStore(rootReducer, storage('excel-state'))
 
-store.subscribe(state => {
+// apply mods to storage after 300ms if the state was not changed
+// its a classic debounce operation to avoid spamming the storage(database)
+const stateListener = debounce(state => {
+    console.log('App State: ', state)
     storage('excel-state', state)
-    console.log('app state: ', state)
-})
+}, 300)
+
+store.subscribe(stateListener)
 
 const excel = new Excel('#app', {
     components: [Header, Toolbar, Formula, Table],

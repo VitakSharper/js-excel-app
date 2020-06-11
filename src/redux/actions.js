@@ -19,3 +19,8 @@ export const applyStyle = (data) => ({
     type: TableActionTypes.APPLY_STYLE,
     payload: data
 })
+
+export const modifyTitle = (data) => ({
+    type: TableActionTypes.TITLE_MODIFY,
+    payload: data
+})

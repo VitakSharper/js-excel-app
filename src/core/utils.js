@@ -55,4 +55,18 @@ export const toInlineStyles = (styles = {}) =>
     Object.keys(styles)
         .map(cssDeclaration =>
             `${camelCaseToDash(cssDeclaration)}:${styles[cssDeclaration]}`)
-        .join(';')
+        .join(';') + ';'
+
+// debounce make a delay to store
+export const debounce = (fn, wait) => {
+    let timeout
+    return (...args) => {
+        const later = () => {
+            clearTimeout(timeout)
+            fn.apply(this, args)
+            //fn(...args)
+        }
+        clearTimeout(timeout)
+        timeout = setTimeout(later, wait)
+    }
+}

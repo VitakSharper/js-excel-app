@@ -1,9 +1,10 @@
 import {TableActionTypes} from "@/redux/actionTypes";
 import {addColumnToState, addValueToCellsDataState, applyCssToCell} from "@/redux/utils";
-import {defaultStyles} from "@/constants";
-import {toInlineStyles} from "@core/utils";
+import {defaultStyles, defaultTitle} from "@/constants";
+import {Table} from "@/components/table/Table";
 
 const initialState = {
+    tableTitle: defaultTitle,
     columnState: {},
     rowState: {},
     cellsDataState: {},
@@ -11,6 +12,12 @@ const initialState = {
     currentCellValue: '',
     currentStyles: defaultStyles
 }
+
+// const normalize = state => ({...state, currentStyles: defaultStyles, currentCellValue: ''})
+//
+// const initialState = storage('excel-state')
+//     ? normalize(storage('excel-state'))
+//     : defaultState
 
 export function rootReducer(state = initialState, action) {
     //console.log('in reducer: ', action)
@@ -29,11 +36,14 @@ export function rootReducer(state = initialState, action) {
         case TableActionTypes.CHANGE_STYLE:
             return {...state, currentStyles: action.payload}
         case TableActionTypes.APPLY_STYLE:
-            console.log('in reducer: ', action.payload, state.stylesState)
             return {
                 ...state,
                 stylesState: applyCssToCell(state.stylesState || {}, action.payload),
                 currentStyles: {...state.currentStyles, ...action.payload.cssDeclaration}
+            }
+        case TableActionTypes.TITLE_MODIFY:
+            return {
+                ...state, tableTitle: action.payload
             }
         default:
             return state
