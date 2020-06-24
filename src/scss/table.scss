@@ -79,6 +79,7 @@
         color: #111;
         white-space: nowrap;
         outline: none;
+        font-size: $cell-default-font-size;
 
         &.selected {
           position: relative;
@@ -113,7 +114,8 @@
             width: 6px;
             background: $color-cell-selected-outline-blue;
           }
-          &:hover::before{
+
+          &:hover::before {
             cursor: pointer;
           }
         }

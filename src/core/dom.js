@@ -17,9 +17,13 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
-    text(text) {
-        if (typeof text === 'string') {
-            this.$el.textContent = text
+    text(value) {
+        if (typeof value === 'string' || typeof value !== 'undefined') {
+            if (this.$el.tagName.toLowerCase() === 'input') {
+                this.$el.value = value
+                return this
+            }
+            this.$el.textContent = value.toString().trim()
             return this
         }
         if (this.$el.tagName.toLowerCase() === 'input') {
@@ -45,12 +49,19 @@ class Dom {
         return this
     }
 
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value)
+            return this;
+        }
+        return this.$el.getAttribute(name)
+    }
+
     on(eventType, callback) {
         this.$el.addEventListener(eventType, callback)
     }
 
     off(eventType, callback) {
-        console.log('in off: ', eventType, callback)
         this.$el.removeEventListener(eventType, callback)
     }
 
@@ -70,8 +81,17 @@ class Dom {
         return $(this.$el.querySelector(selector))
     }
 
-    css(styles = {}) {
-        Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
+    css(cssDeclaration = {}) {
+        Object.keys(cssDeclaration)
+            .forEach(cssProperty =>
+                this.$el.style[cssProperty] = cssDeclaration[cssProperty])
+    }
+
+    getCss(styles = []) {
+        return styles.reduce((acc, cssProperty) => {
+            acc[cssProperty] = this.$el.style[cssProperty]
+            return acc
+        }, {})
     }
 
     addClass(className) {
@@ -106,25 +126,17 @@ $.create = (tagName, classes = []) => {
     return $(el)
 }
 
-$.getNodeForComponent = (component) => {
-    let node;
-    switch (component) {
+$.getNodeForComponent = (node) => {
+    switch (node) {
         case 'Header':
-            node = 'header'
-            break
-        case 'Table':
-            node = 'section'
-            break
+            return 'header'
         case 'Formula':
-            node = 'section'
-            break
+        case 'Table':
+            return 'section'
         case 'Toolbar':
-            node = 'nav'
-            break
+            return 'nav'
         default:
-            node = 'div'
-            break
+            return 'div'
     }
-    return node;
 }
 

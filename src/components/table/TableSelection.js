@@ -6,12 +6,20 @@ export class TableSelection {
         this.current = null
     }
 
+    applyCss(cssDeclaration) {
+        this.group.forEach($el => $el.css(cssDeclaration))
+    }
+
 // $el instance of DOM
     select($el) {
         this.clear()
         this.group.push($el)
         this.current = $el
         $el.selectedCellFocus().addClass(TableSelection.className)
+    }
+
+    get selectedCellIds() {
+        return this.group.map($el => $el.getCellId())
     }
 
     clear() {

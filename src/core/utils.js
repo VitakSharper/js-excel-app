@@ -37,3 +37,36 @@ export const checkCellRange = (transformedCell, currentCell, rowsToCreate) => {
         ? `[data-col="${transformedCell}"]`
         : `[data-col="${currentCell}"]`
 }
+
+export const storage = (key, data = null) => !data
+    ? JSON.parse(localStorage.getItem(key))
+    : localStorage.setItem(key, JSON.stringify(data))
+
+// js hack comparing two objects or two strings , not a deep compare
+export const isEqual = (a, b) => (typeof a === 'object') && (typeof b === 'object')
+    ? JSON.stringify(a) === JSON.stringify(b)
+    : a === b
+
+export const camelCaseToDash = (cssProperty) =>
+    cssProperty.replace(/([A-Z])/g, (g) =>
+        `-${g[0].toLowerCase()}`)
+
+export const toInlineStyles = (styles = {}) =>
+    Object.keys(styles)
+        .map(cssDeclaration =>
+            `${camelCaseToDash(cssDeclaration)}:${styles[cssDeclaration]}`)
+        .join(';')
+
+// debounce make a delay to store
+export const debounce = (fn, wait) => {
+    let timeout
+    return (...args) => {
+        const later = () => {
+            clearTimeout(timeout)
+            fn.apply(this, args)
+            //fn(...args)
+        }
+        clearTimeout(timeout)
+        timeout = setTimeout(later, wait)
+    }
+}

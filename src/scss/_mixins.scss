@@ -8,6 +8,7 @@
   text-align: center;
   display: inline-block;
   color: rgba(0, 0, 0, .7);
+  border-radius: 50%;
 
   & i {
     font-size: 1.8rem;
@@ -17,16 +18,16 @@
   &:focus {
     outline: none;
   }
-
+  &.active,
   &:active {
     transform: translateY(2px);
     color: $color;
+    background: $color-grey-light-3;
   }
 
   &:hover {
     background: $color-grey-light-3;
     cursor: pointer;
-    border-radius: 50%;
   }
 }
 
