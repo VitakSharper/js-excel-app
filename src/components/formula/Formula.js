@@ -25,7 +25,8 @@ export class Formula extends ExcelComponent {
         this.$formula = this.$root.find('#formula')
         // show selected cell value in formula input
         this.$on('table:select', $cell => {
-            this.$formula.text($cell.text())
+            // get value from data attribute into formula input
+            this.$formula.text($cell.data.value)
         })
     }
 

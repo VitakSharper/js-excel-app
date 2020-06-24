@@ -1,5 +1,6 @@
 import {defaultStyles} from "@/constants";
 import {camelCaseToDash, toInlineStyles} from "@core/utils";
+import {parse} from "@core/parse";
 
 export const CODES = {
     A: 65,
@@ -61,7 +62,8 @@ style="${styles}; width: ${width}"
 contenteditable 
 data-col="${cellId}"
 data-type="cell"
->${value}</div>
+data-value="${value}"
+>${parse(value)}</div>
 `
 }
 

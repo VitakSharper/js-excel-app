@@ -8,6 +8,7 @@ import {checkCellRange} from "@core/utils";
 
 import * as actions from "@/redux/actions"
 import {defaultStyles} from "@/constants";
+import {parse} from "@core/parse";
 
 export class Table extends ExcelComponent {
     static className = 'table'
@@ -25,9 +26,13 @@ export class Table extends ExcelComponent {
         super.init();
         this.selectCell(this.$root.find('[data-col="A1"]'))
         // on insert text in current cell from formula component
-        this.$on('formula:input', text => {
-            this.selection.current.text(text)
-            this.modifyCellValueInStore(text)
+        this.$on('formula:input', value => {
+            // set value from formula input to data attribute
+            this.selection.current
+                .attr('data-value', value)
+                .text(parse(value))
+
+            this.modifyCellValueInStore(value)
         })
         this.$on('formula:done', () => {
             this.selection.current.selectedCellFocus()

@@ -17,13 +17,13 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
-    text(text) {
-        if (typeof text === 'string') {
+    text(value) {
+        if (typeof value === 'string' || typeof value !== 'undefined') {
             if (this.$el.tagName.toLowerCase() === 'input') {
-                this.$el.value = text
+                this.$el.value = value
                 return this
             }
-            this.$el.textContent = text.trim()
+            this.$el.textContent = value.toString().trim()
             return this
         }
         if (this.$el.tagName.toLowerCase() === 'input') {
@@ -47,6 +47,14 @@ class Dom {
             this.$el.appendChild(node)
         }
         return this
+    }
+
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value)
+            return this;
+        }
+        return this.$el.getAttribute(name)
     }
 
     on(eventType, callback) {
